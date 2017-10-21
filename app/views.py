@@ -34,6 +34,10 @@ def send_welcome(message):
     lastName = message.from_user.last_name # Фамилия пользователя
     languageCode = message.from_user.language_code # Используемый язык
 
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+	bot.reply_to(message, message.text)
+
 @bot.message_handler(commands=['time'])
 def send_time_now(message):
     bot.send_message(message.chat.id, 'Доброе утро, сегодня {dt:%A} {dt:%B} {dt.day}, {dt.year}: '.format(dt = datetime.datetime.now()))
