@@ -12,6 +12,7 @@ import requests
 import datetime
 import time
 import threading
+import shelve
 
 
 bot = telebot.TeleBot(token)
@@ -41,7 +42,6 @@ def send_welcome(message):
     languageCode = message.from_user.language_code # Используемый язык
     msg_date = message.date #Дата отправки /start
 
-
     db = SQL_Postgre()
     # check_user_availible = True - Пользователь существует в системе
     #                      = False - Пользователь не существует в системе
@@ -50,22 +50,28 @@ def send_welcome(message):
         curr_utc_time = datetime.datetime.utcnow()
         timezone = get_utc_offset_timezone(curr_utc_time, msg_date)
         a = db.new_user(userId,firstName,userName,lastName,timezone)
-        db.close()
+
         # После регистрации клиента в системе выводим первое приветсвие
+        """
         bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Я ваша персональная помощница.\nПодпишитесь на мои сервисы и каждое утро вы будете получать уведомления.")
         list_subscriptions = "Чтобы подписаться на сервис, нажмите на него или напишите мне: \n/time - дата и время\n/weather - погода на сегодня\n/currency - курс валют\n/contact - уведомления о днях рождения"
         bot.send_message(message.chat.id, list_subscriptions)
         list_commands = "Также вы можете воспользоваться командами: \n/time - Текущее время\n/contacts - Управление контактами\n/currency - курс валют"
         bot.send_message(message.chat.id, list_commands)
-
+        """
+        bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Чем я могу помочь?")
+        list_subscriptions = "/currentSubscriptions - текущие подписки"
+        bot.send_message(message.chat.id, list_subscriptions)
+        list_commands = "Список команд: \n/time - Текущее время\n/contacts - Управление контактами\n/currency - курс валют"
+        bot.send_message(message.chat.id, list_commands)
     else:
-        db.close()
         bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Чем я могу помочь?")
         list_subscriptions = "/currentSubscriptions - текущие подписки"
         bot.send_message(message.chat.id, list_subscriptions)
         list_commands = "Список команд: \n/time - Текущее время\n/contacts - Управление контактами\n/currency - курс валют"
         bot.send_message(message.chat.id, list_commands)
 
+    db.close()
 
 @bot.message_handler(commands=['time'])
 def send_time_now(message):
@@ -75,11 +81,24 @@ def send_time_now(message):
 @bot.message_handler(commands=['contacts'])
 def send_welcome_contacts(message):
     bot.send_message(message.chat.id, "Список команд:\n /createContact - Загрузить контакты файлом")
+    storage = shelve.open('shelve')
+    storage[str(message.chat.id)] = 'init'
+    storage.close()
 
 @bot.message_handler(func=lambda message: True, commands=['createContact'])
 def new_contact_list(message):
-    bot.send_message(message.chat.id, 'Пожалуйста, загрузите файл в формате GOOGLE CSV\nПодробнее: https://www.google.com/contacts/u/0/?cplus=0#contacts\nЕще->Экспорт->Выберите формат файла для экспорта->\
-                                       Google CSV (для импорта в аккаунт Google)')
+    chat_id = message.chat.id
+    with shelve.open('shelve') as storage:
+        if storage.get(str(chat_id)) != None:
+            state = storage[str(chat_id)]
+            if 'init' in state:
+                bot.send_message(message.chat.id, 'Пожалуйста, загрузите файл в формате GOOGLE CSV\nПодробнее: https://www.google.com/contacts/u/0/?cplus=0#contacts\nЕще->Экспорт->Выберите формат файла для экспорта->\
+                                                                       Google CSV (для импорта в аккаунт Google)')
+
+
+        storage.clear()
+        storage.close()
+
 
 # Загрузка документа
 @bot.message_handler(content_types=['document'])
@@ -100,7 +119,6 @@ def send_exchange_rates(message):
 def start_contact_notification():
     thread = threading.Thread(target=run_thread)
     thread.start()
-
 
 def run_thread():
     time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
