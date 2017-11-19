@@ -175,6 +175,7 @@ def web_hook():
     bot.set_webhook(url='https://miass-bot.herokuapp.com/' + token)
     return "CONNECTED", 200
 
+bot.remove_webhook()
 app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000)) #- это нам не нужно, потому что мы выполняем команду: gunicorn runp-heroku:app
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
