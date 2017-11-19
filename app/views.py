@@ -178,8 +178,8 @@ def web_hook():
     bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0')
     return "CONNECTED", 200
 
-
-app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=os.environ.get('PORT', 8000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
 # Необходимо закомментировтаь серверную часть и включить bot.polling
