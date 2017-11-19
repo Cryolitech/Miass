@@ -166,7 +166,7 @@ def start(message):
 def echo_message(message):
     bot.reply_to(message, message.text)
 
-@app.route('/' + token, methods=['POST'])
+@app.route('/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0', methods=['POST'])
 def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "POST", 200
@@ -175,7 +175,7 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url="https://frozen-tor-34452.herokuapp.com/431904557:AAGEJxTy6D3ygCNuqQUx5rd_hevU5JX6a84")
+    bot.set_webhook(url="https://frozen-tor-34452.herokuapp.com/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0")
     return "CONNECTED", 200
 
 
