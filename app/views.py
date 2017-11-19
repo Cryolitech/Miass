@@ -175,7 +175,7 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url="https://frozen-tor-34452.herokuapp.com/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0")
+    bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0')
     return "CONNECTED", 200
 
 
