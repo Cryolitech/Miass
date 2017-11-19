@@ -18,7 +18,7 @@ import shelve
 
 bot = telebot.TeleBot(token)
 
-"""
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     # Можно так
@@ -150,23 +150,15 @@ def run_thread():
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-#start_contact_notification()
+start_contact_notification()
 
-"""
+
 
 #!------------------------------------------------------------------------------------------!#
 # СЕРВЕРНАЯ ЧАСТЬ (НЕ ТРОГАТЬ)
 #!------------------------------------------------------------------------------------------!#
 
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
-
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-    bot.reply_to(message, message.text)
-
-@app.route('/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0', methods=['POST'])
+@app.route('/' + token, methods=['POST'])
 def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "POST", 200
@@ -175,7 +167,7 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0')
+    bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/'+ token)
     return "CONNECTED", 200
 
 if __name__ == '__main__':
