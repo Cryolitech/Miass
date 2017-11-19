@@ -158,6 +158,14 @@ def run_thread():
 # СЕРВЕРНАЯ ЧАСТЬ (НЕ ТРОГАТЬ)
 #!------------------------------------------------------------------------------------------!#
 
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.reply_to(message, 'Hello, ' + message.from_user.first_name)
+
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
 @app.route('/' + token, methods=['POST'])
 def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
@@ -167,7 +175,7 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/' + token)
+    bot.set_webhook(url="https://frozen-tor-34452.herokuapp.com/431904557:AAGEJxTy6D3ygCNuqQUx5rd_hevU5JX6a84")
     return "CONNECTED", 200
 
 
