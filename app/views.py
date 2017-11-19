@@ -4,6 +4,7 @@ from app.config import token #Забираем токен из config.py (Это
 from app.db_postgresql import SQL_Postgre
 from app.csvEditor import csv_dict_reader
 from app.ExchangeRates import current_exchange_rate
+from telebot import types
 import os
 import telebot
 from flask import request
@@ -73,6 +74,14 @@ def send_welcome(message):
 
     db.close()
 
+@bot.message_handler(commands=["geophone"])
+def geophone(message):
+    # Эти параметры для клавиатуры необязательны, просто для удобства
+    keyboard = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    button_phone = types.KeyboardButton(text="Отправить номер телефона", request_contact=True)
+    button_geo = types.KeyboardButton(text="Отправить местоположение", request_location=True)
+    keyboard.add(button_phone, button_geo)
+    bot.send_message(message.chat.id, "Отправь мне свой номер телефона или поделись местоположением, жалкий человечишка!", reply_markup=keyboard)
 @bot.message_handler(commands=['time'])
 def send_time_now(message):
     currDTime = datetime.datetime.fromtimestamp(message.date)
@@ -92,12 +101,12 @@ def new_contact_list(message):
         if storage.get(str(chat_id)) != None:
             state = storage[str(chat_id)]
             if 'init' in state:
-                bot.send_message(message.chat.id, 'Пожалуйста, загрузите файл в формате GOOGLE CSV\nПодробнее: https://www.google.com/contacts/u/0/?cplus=0#contacts\nЕще->Экспорт->Выберите формат файла для экспорта->\
-                                                                       Google CSV (для импорта в аккаунт Google)')
+                bot.send_message(message.chat.id, 'Пожалуйста, загрузите файл в формате GOOGLE CSV\nПодробнее: https://www.google.com/contacts/u/0/?cplus=0#contacts\nЕще->Экспорт->Выберите формат файла для экспорта->\nGoogle CSV (для импорта в аккаунт Google)')
+                storage[str(chat_id)] = 'NULL'
+                print("hello")
+            else:
+                bot.send_message(message.chat.id, 'Введите команду /contacts')
 
-
-        storage.clear()
-        storage.close()
 
 
 # Загрузка документа
