@@ -18,6 +18,7 @@ import shelve
 
 bot = telebot.TeleBot(token)
 
+"""
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     # Можно так
@@ -53,13 +54,7 @@ def send_welcome(message):
         a = db.new_user(userId,firstName,userName,lastName,timezone)
 
         # После регистрации клиента в системе выводим первое приветсвие
-        """
-        bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Я ваша персональная помощница.\nПодпишитесь на мои сервисы и каждое утро вы будете получать уведомления.")
-        list_subscriptions = "Чтобы подписаться на сервис, нажмите на него или напишите мне: \n/time - дата и время\n/weather - погода на сегодня\n/currency - курс валют\n/contact - уведомления о днях рождения"
-        bot.send_message(message.chat.id, list_subscriptions)
-        list_commands = "Также вы можете воспользоваться командами: \n/time - Текущее время\n/contacts - Управление контактами\n/currency - курс валют"
-        bot.send_message(message.chat.id, list_commands)
-        """
+        
         bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Чем я могу помочь?")
         list_subscriptions = "/currentSubscriptions - текущие подписки"
         bot.send_message(message.chat.id, list_subscriptions)
@@ -157,7 +152,7 @@ def run_thread():
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
 #start_contact_notification()
 
-
+"""
 
 #!------------------------------------------------------------------------------------------!#
 # СЕРВЕРНАЯ ЧАСТЬ (НЕ ТРОГАТЬ)
@@ -172,11 +167,11 @@ def get_message():
 @app.route("/")
 def web_hook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://miass-bot.herokuapp.com/' + token)
+    bot.set_webhook(url='https://frozen-tor-34452.herokuapp.com/' + token)
     return "CONNECTED", 200
 
 
-app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000)) #- это нам не нужно, потому что мы выполняем команду: gunicorn runp-heroku:app
+app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
 # Необходимо закомментировтаь серверную часть и включить bot.polling
