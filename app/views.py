@@ -265,6 +265,10 @@ def geophone(message):
     keyboard.add(button_phone, button_geo)
     bot.send_message(message.chat.id, "Отправь мне свой номер телефона или поделись местоположением, жалкий человечишка!", reply_markup=keyboard)
 
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+	bot.reply_to(message, message.text)
+
 @bot.message_handler(commands=['time'])
 def send_time_now(message):
     user_timezone = get_hash_timezone(message.chat.id)
