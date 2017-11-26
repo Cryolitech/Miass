@@ -403,7 +403,7 @@ start_contact_notification()
 #!------------------------------------------------------------------------------------------!#
 # СЕРВЕРНАЯ ЧАСТЬ (НЕ ТРОГАТЬ)
 #!------------------------------------------------------------------------------------------!#
-
+"""
 @app.route('/' + token, methods=['POST'])
 def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
@@ -438,6 +438,6 @@ if __name__ == '__main__':
 """
 bot.remove_webhook()
 bot.polling(none_stop=True)
-"""
+
 
 
