@@ -7,13 +7,17 @@ verify_ssl = true
 [packages]
 
 dj-database-url = "*"
-Django = "*"
+django = "*"
 gunicorn = "*"
 "psycopg2" = "*"
 whitenoise = "*"
 requests = "*"
-Flask = "*"
-pyTelegramBotAPI = "*"
+flask = "*"
+pytelegrambotapi = "*"
+cython = "*"
+vedis = "*"
+"bs4" = "*"
+lxml = "*"
 
 
 [requires]

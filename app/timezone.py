@@ -1,6 +1,5 @@
 import datetime
 
-
 # Obtain the UTC Offset for the current system:
 def get_utc_offset_timezone(local_time_utc, unix_timestamp):
     UTC_OFFSET_TIMEDELTA = datetime.datetime.fromtimestamp(unix_timestamp) - local_time_utc

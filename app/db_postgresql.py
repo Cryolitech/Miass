@@ -33,6 +33,30 @@ class SQL_Postgre:
                 return True     # Пользователь есть в БД
             else:
                 return False    # Пользователья нет в БД
+    def getAll_user_id(self):
+        with self.conn:
+            cur = self.conn.cursor()
+            query = 'SELECT telegram_id FROM public.contact_telegram'
+            cur.execute(query)
+            data = cur.fetchall()
+            cur.close()
+            if data != None:
+                return list(data)     # Пользователь есть в БД
+            else:
+                return None    # Пользователья нет в БД
+    def check_city(self, city_name):
+        with self.conn:
+            cur = self.conn.cursor()
+            city = city_name.title()
+            query = 'SELECT name FROM city WHERE name = ' +str("'" + city + "'")
+            #cur.execute("SELECT name FROM city WHERE name = '"+city_name+"'")
+            cur.execute(query)
+            data = cur.fetchone()
+            cur.close()
+            if data != None:
+                return True     # Город есть в БД
+            else:
+                return False    # Города нет в БД
 
     def new_user(self, userId,firstName,userName,lastName,timezone):
         cur = self.conn.cursor()
