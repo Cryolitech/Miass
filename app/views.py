@@ -30,19 +30,18 @@ def inRange(num, min, max):
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-
     userId = message.from_user.id  # id пользователя в telegram
     firstName = message.from_user.first_name  # Имя пользователя
     userName = message.from_user.username  # Имя, отображающееся в telegram
     lastName = message.from_user.last_name  # Фамилия пользователя
-    
+
     botName = bot.get_me().first_name  # Берем имя бота
     bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Чем я могу вам помочь?")
     db = SQL_Postgre()
     if db.check_user_id(message.chat.id) == False:
-        db.new_user(userId,firstName,userName,lastName)
+        db.new_user(userId, firstName, userName, lastName)
     db.close()
-    
+
     curr_state = get_current_state(message.chat.id)
     if curr_state == config.States.S_CHECKINOK.value:
         pass
@@ -264,10 +263,6 @@ def geophone(message):
     button_geo = types.KeyboardButton(text="Отправить местоположение", request_location=True)
     keyboard.add(button_phone, button_geo)
     bot.send_message(message.chat.id, "Отправь мне свой номер телефона или поделись местоположением, жалкий человечишка!", reply_markup=keyboard)
-
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-	bot.reply_to(message, message.text)
 
 @bot.message_handler(commands=['time'])
 def send_time_now(message):
