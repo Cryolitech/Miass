@@ -31,10 +31,18 @@ def inRange(num, min, max):
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
 
+    userId = message.from_user.id  # id пользователя в telegram
+    firstName = message.from_user.first_name  # Имя пользователя
+    userName = message.from_user.username  # Имя, отображающееся в telegram
+    lastName = message.from_user.last_name  # Фамилия пользователя
+    
     botName = bot.get_me().first_name  # Берем имя бота
-    userName = message.from_user.first_name  # Берем имя пользователя
     bot.send_message(message.chat.id, userName + ", Приветствую! Меня зовут " + botName + ". Чем я могу вам помочь?")
-
+    db = SQL_Postgre()
+    if db.check_user_id(message.chat.id) == False:
+        db.new_user(userId,firstName,userName,lastName)
+    db.close()
+    
     curr_state = get_current_state(message.chat.id)
     if curr_state == config.States.S_CHECKINOK.value:
         pass
@@ -391,7 +399,7 @@ start_contact_notification()
 #!------------------------------------------------------------------------------------------!#
 # СЕРВЕРНАЯ ЧАСТЬ (НЕ ТРОГАТЬ)
 #!------------------------------------------------------------------------------------------!#
-
+"""
 @app.route('/' + token, methods=['POST'])
 def get_message():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
@@ -426,6 +434,6 @@ if __name__ == '__main__':
 """
 bot.remove_webhook()
 bot.polling(none_stop=True)
-"""
+
 
 

@@ -58,9 +58,9 @@ class SQL_Postgre:
             else:
                 return False    # Города нет в БД
 
-    def new_user(self, userId,firstName,userName,lastName,timezone):
+    def new_user(self, userId,firstName,userName,lastName):
         cur = self.conn.cursor()
-        self.cur.execute("insert into contact_telegram(telegram_id,first_Name,user_Name,last_Name,timezone) values(%s,%s,%s,%s,%s)",(str(userId),str(firstName),str(userName),str(lastName),str(timezone)))
+        self.cur.execute("insert into contact_telegram(telegram_id,first_Name,user_Name,last_Name) values(%s,%s,%s,%s)",(str(userId),str(firstName),str(userName),str(lastName)))
         self.conn.commit()  # Загружае все звпросы на сервер БД
         cur.close()
         return True
