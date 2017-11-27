@@ -218,7 +218,7 @@ def make_report_full(response):
         for key1, value1 in dic.items():
             report = report + key1 + "\n"
             for key2, value2 in value1.items():
-                report = report + key2 + ":\t" + value2 + "\n"
+                report = report + key2 + "\t" + value2 + "\n"
             report = report + "\n"
 
     #report - строка
@@ -230,7 +230,7 @@ def make_report_overall(response):
     report = ''
     for dic in response:
         for key, value in dic.items():
-            report = report + key + ":\t" + value + "\n"
+            report = report + key + "\t" + value + "\n"
             report = report
 
     #report - строка

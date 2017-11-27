@@ -36,7 +36,7 @@ def send_welcome(message):
     lastName = message.from_user.last_name  # Фамилия пользователя
 
     botName = bot.get_me().first_name  # Берем имя бота
-    bot.send_message(message.chat.id, str(userName) + ", Приветствую! Меня зовут " + str(botName) + ". Чем я могу вам помочь?")
+    bot.send_message(message.chat.id, str(userName) + ", Приветствую! Меня зовут " + str(botName) + ". Чем я могу тебе помочь?")
     db = SQL_Postgre()
     if db.check_user_id(message.chat.id) == False:
         db.new_user(userId, firstName, userName, lastName)
@@ -62,7 +62,7 @@ def send_welcome(message):
         return
         # После регистрации клиента в системе выводим первое приветсвие
     bot.send_message(message.chat.id, "/Miass - твоя персональная помощница\n"
-                                      "/setting - мои настройки\n"
+                                      "/settings - мои настройки\n"
                                       "/reset_settings - сбросить настройки ")
 
 
