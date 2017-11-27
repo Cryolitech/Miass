@@ -63,7 +63,7 @@ def send_welcome(message):
         # После регистрации клиента в системе выводим первое приветсвие
     bot.send_message(message.chat.id, "/Miass - твоя персональная помощница\n"
                                       "/setting - мои настройки\n"
-                                      "/reset_settings")
+                                      "/reset_settings - сбросить настройки ")
 
 
     """
@@ -129,7 +129,7 @@ def set_city(message):
     #check = db.check_city(str(msg))
     #db.close()
     if check == True:
-        bot.send_message(message.chat.id, "Отлично! Я к вашим услугам. Чтобы общаться со мной, введите команду /Miass")
+        bot.send_message(message.chat.id, "Отлично! Я к твоим услугам. Чтобы общаться со мной, введи команду /Miass")
         set_hash_city(message.chat.id,'Moscow')
 
         # Пока временно. говорим установить статус по 0 за уведомление
@@ -142,8 +142,8 @@ def set_city(message):
         bot.send_message(message.chat.id, "Похоже твоего города нет в списке. Введи Москва (Я пока в бета-версии) :)")
         #bot.send_message(message.chat.id, "Похоже твоего города нет в списке. Но не переживай, я это скоро исправлю. А пока введите ближайший к вашему городу. ")
 
-@bot.message_handler(commands=['command'])
-def view_command(message):
+@bot.message_handler(commands=['commands'])
+def view_commands(message):
     bot.send_message(message.chat.id, "Список команд:\n"
                                       "/time - текущее время\n"
                                       "/currency - курс валют на сегодня\n"
@@ -154,14 +154,15 @@ def view_command(message):
 
 @bot.message_handler(commands=['Miass'])
 def view_miass_commands(message):
-    bot.send_message(message.chat.id, "Чем я могу вам помочь?\n"
+    bot.send_message(message.chat.id, "Чем я могу тебе помочь?\n"
                                       "/services - мои сервисы. Нажмите, чтобы посмотреть весь список\n"
-                                      "/setting - настройки" )
-    view_command(message)
+                                      "/settings - настройки\n"
+                                      "/commands - список команд" )
+    view_commands(message)
 
 @bot.message_handler(commands=['services'])
 def view_miass_commands(message):
-    bot.send_message(message.chat.id, "Выберете сервис, который вас интересует. Каждые 9 утра я буду присылать уведомления\n"
+    bot.send_message(message.chat.id, "Выбери сервис, который тебя интересует. Каждые 9 утра я буду присылать уведомления.\n"
                                       "/activateTime - дата и время \n"
                                       "/activateCurrency - курс валют\n"
                                       "/activateWeather - погода\n"
@@ -169,7 +170,7 @@ def view_miass_commands(message):
 
 @bot.message_handler(commands=['disableServices'])
 def disable_services(message):
-    bot.send_message(message.chat.id, "Выберете сервис, который хотите отключить.\n"
+    bot.send_message(message.chat.id, "Выбери сервис, который хочешь отключить.\n"
                                       "/disableAll - отключить все сервисы\n"
                                       "/disableTime - открючить уведомление даты и время\n"
                                       "/disableCurrency - отключить уведомление курса валют\n"
@@ -178,45 +179,45 @@ def disable_services(message):
 @bot.message_handler(commands=['activateTime'])
 def activate_time_notice(message):
     update_hash_notice(message.chat.id, 'time_notice_status','1')
-    bot.send_message(message.chat.id,'Вы подписались на уведомление')
+    bot.send_message(message.chat.id,'Подписка оформлена')
 
 @bot.message_handler(commands=['activateCurrency'])
 def activate_currency_notice(message):
     update_hash_notice(message.chat.id, 'currency_notice_status', '1')
-    bot.send_message(message.chat.id, 'Вы подписались на уведомление')
+    bot.send_message(message.chat.id, 'Подписка оформлена')
 
 @bot.message_handler(commands=['activateWeather'])
 def activate_weather_notice(message):
     update_hash_notice(message.chat.id, 'weather_notice_status', '1')
-    bot.send_message(message.chat.id, 'Вы подписались на уведомление')
+    bot.send_message(message.chat.id, 'Подписка оформлена')
 
 @bot.message_handler(commands=['disableAll'])
 def disactivate_notice_all(message):
     update_hash_notice(message.chat.id, 'time_notice_status','0')
     update_hash_notice(message.chat.id, 'currency_notice_status', '0')
     update_hash_notice(message.chat.id, 'weather_notice_status', '0')
-    bot.send_message(message.chat.id, 'Вы подписались на уведомление')
+    bot.send_message(message.chat.id, 'Отписка от всех уведомлений')
 
 @bot.message_handler(commands=['disableTime'])
 def disactivate_time_notice(message):
     update_hash_notice(message.chat.id, 'time_notice_status','0')
-    bot.send_message(message.chat.id, 'Вы отписались от уведомления')
+    bot.send_message(message.chat.id, 'Отписка от уведомления')
 
 @bot.message_handler(commands=['disableCurrency'])
 def disactivate_currency_notice(message):
     update_hash_notice(message.chat.id, 'currency_notice_status', '0')
-    bot.send_message(message.chat.id, 'Вы отписались от уведомления')
+    bot.send_message(message.chat.id, 'Отписка от уведомления')
 
 @bot.message_handler(commands=['disableWeather'])
 def disactivate_weather_notice(message):
     update_hash_notice(message.chat.id, 'weather_notice_status', '0')
-    bot.send_message(message.chat.id, 'Вы отписались от уведомления')
+    bot.send_message(message.chat.id, 'Отписка от уведомления')
 
-@bot.message_handler(commands=['setting'])
+@bot.message_handler(commands=['settings'])
 def user_settings(message):
-    bot.send_message(message.chat.id, "Ваш часовой пояс: " + str(get_hash_timezone(message.chat.id)) + "\nВаш город:                " + str(get_hash_city(message.chat.id)) + "\nСброс настроек: /resetSetting" )
+    bot.send_message(message.chat.id, "Ваш часовой пояс: " + str(get_hash_timezone(message.chat.id)) + "\nВаш город:                " + str(get_hash_city(message.chat.id)) + "\nСброс настроек: /resetSettings" )
 
-@bot.message_handler(commands=['resetSetting'])
+@bot.message_handler(commands=['resetSettings'])
 def reset_settings(message):
     bot.send_message(message.chat.id, "Сбрасываю настройки.")
     set_state(message.chat.id, config.States.S_ENTER_TIMEZONE.value)
@@ -330,8 +331,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 0 # 0 минут
+    time_notice_h = 7 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 33 # 0 минут
     while True:
         current_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -360,34 +361,39 @@ def run_thread():
                             data_need_timezone.append(item)
 
                 # Получаем города пользователей
-                utc = data_need_timezone[0]['timezone']
-                curr_user_time = get_time_from_another_timezone( datetime.datetime.utcnow(), int(utc))
-                dollar, euro = current_exchange_rate()
-                for row in data_need_timezone:
-                    id = row['user_id']
-                    city = row['city']
-                    text_time = ''
-                    text_currency = ''
-                    text_weather = ''
-                    if item['time_notice_status'] == '1':
-                        text_time = 'Сегодня {:%d %b %Y, %H:%M }\n'.format(curr_user_time)
-                    if item['currency_notice_status'] == '1':
-                        text_currency = 'Курс валют:\n USD: ' + str(dollar) + '\n EUR: ' + str(euro) + '\n'
-                    if item['weather_notice_status'] == '1':
-                        curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
-                        text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
+                try:
+                    utc = data_need_timezone[0]['timezone']
+                except KeyError:
+                    utc = 3
 
-                    all_text = text_time + text_currency + text_weather
-                    bot.send_message(id, all_text )
-                """
-                for currData in data_contact_withTimeZone:
-                    data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
-                    if len(data_contact) != 0: # Если данные не пустые
-                        for row in data_contact:
-                            bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
-                db.close()
-                """
-        time.sleep(60) # Через минуту запускаем заного
+                    curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
+                    dollar, euro = current_exchange_rate()
+                    for row in data_need_timezone:
+                        id = row['user_id']
+                        city = row['city']
+                        text_time = ''
+                        text_currency = ''
+                        text_weather = ''
+                        if row['time_notice_status'] == '1':
+                            text_time = 'Сегодня {:%d %b %Y, %H:%M }\n\n'.format(curr_user_time)
+                        if row['currency_notice_status'] == '1':
+                            text_currency = 'Курс валют:\n USD: ' + str(dollar) + '\n EUR: ' + str(euro) + '\n'
+                        if row['weather_notice_status'] == '1':
+                            curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
+                            text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
+
+                        all_text = text_time + text_currency + text_weather
+                        bot.send_message(id, all_text)
+                    """
+                    for currData in data_contact_withTimeZone:
+                        data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
+                        if len(data_contact) != 0: # Если данные не пустые
+                            for row in data_contact:
+                                bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
+                    db.close()
+                    """
+
+        time.sleep(61) # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
