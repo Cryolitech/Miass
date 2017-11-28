@@ -353,7 +353,7 @@ def run_thread():
     time_notice_h = 10 # Уведомления статически приходят пользователю в 9 утра 0 минут
     time_notice_m = 16 # 0 минут
     while True:
-        current_date = datetime.date.today()        # Узнаем текущую дату
+        #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
         for utc in range(-12,12):                   # пробегаемся по всем часовым поясам
             if current_time.hour + utc == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
