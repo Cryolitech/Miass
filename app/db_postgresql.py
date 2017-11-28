@@ -2,15 +2,16 @@ import os
 from urllib import parse
 import psycopg2
 import sys
+import app.config as config
 
 class SQL_Postgre:
     def __init__(self):
         # ! параметры БД
-        self.database_name = "dam200ta40ispa"
-        self.username = "tvqpoqthrrskcc"
-        self.password = "bf52ed097dcffbb71d9fb127149f9e1e9b97c16178cc1837a5ac8ccf0ce5e100"
-        self.hostname = "ec2-54-225-88-191.compute-1.amazonaws.com"
-        self.port = "5432"
+        self.database_name = config.Database_name
+        self.username = config.Username
+        self.password = config.Password
+        self.hostname = config.Hostname
+        self.port = config.Port
         # !
 
         self.conn = psycopg2.connect(

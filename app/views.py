@@ -132,10 +132,6 @@ def set_city(message):
         bot.send_message(message.chat.id, "Отлично! Я к твоим услугам. Чтобы общаться со мной, введи команду /Miass")
         set_hash_city(message.chat.id,'Moscow')
 
-        # Пока временно. говорим установить статус по 0 за уведомление
-        update_hash_notice(message.chat.id, 'time_notice_status', '0')
-        update_hash_notice(message.chat.id, 'currency_notice_status', '0')
-        update_hash_notice(message.chat.id, 'weather_notice_status', '0')
 
         set_state(message.chat.id, config.States.S_CHECKINOK.value) # Теперь переводим в статус зарегестрированного
     else:
@@ -166,6 +162,7 @@ def view_miass_commands(message):
                                       "/activateTime - дата и время \n"
                                       "/activateCurrency - курс валют\n"
                                       "/activateWeather - погода\n"
+                                      "/activatedServices - мои текущие подписки\n"
                                       "/disableServices - открючить сервис" )
 
 @bot.message_handler(commands=['disableServices'])
@@ -175,6 +172,28 @@ def disable_services(message):
                                       "/disableTime - открючить уведомление даты и время\n"
                                       "/disableCurrency - отключить уведомление курса валют\n"
                                       "/disableWeather - отключить уведомление погоды" )
+
+@bot.message_handler(commands=['activatedServices'])
+def view_activated_services(message):
+    data = getData_from_id(message.chat.id)
+
+    if data['time_notice_status'] != '0':
+        time = 'Уведомление даты и времени включено'
+    else:
+        time = 'Уведомление даты и времени отключено'
+
+    if data['currency_notice_status'] != '0':
+        currency = 'Уведомление курса валют включено'
+    else:
+        currency = 'Уведомление курса валют отключено'
+
+    if data['weather_notice_status'] != '0':
+        weather = 'Уведомление погоды включено'
+    else:
+        weather = 'Уведомление погоды отключено'
+
+    text = 'Подписки: \n' + time + "\n" + currency + "\n" + weather
+    bot.send_message(message.chat.id, text)
 
 @bot.message_handler(commands=['activateTime'])
 def activate_time_notice(message):
@@ -304,7 +323,7 @@ def allDocs(message):
 @bot.message_handler(commands=['currency'])
 def send_exchange_rates(message):
     dollar,euro = current_exchange_rate()
-    bot.send_message(message.chat.id, "Курс валют на сегодня:\n USD: " + str(dollar) +"\n EUR: " + str(euro))
+    bot.send_message(message.chat.id, "Курс валют на сегодня:\nUSD: " + str(dollar) +"\nEUR: " + str(euro))
 
 @bot.message_handler(commands=['weatherFull'])
 def send_exchange_rates(message):
@@ -331,8 +350,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 7 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 33 # 0 минут
+    time_notice_h = 10 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 16 # 0 минут
     while True:
         current_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -361,11 +380,7 @@ def run_thread():
                             data_need_timezone.append(item)
 
                 # Получаем города пользователей
-                try:
-                    utc = data_need_timezone[0]['timezone']
-                except KeyError:
-                    utc = 3
-
+                if len(data_need_timezone) != 0:
                     curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
                     dollar, euro = current_exchange_rate()
                     for row in data_need_timezone:
@@ -377,7 +392,7 @@ def run_thread():
                         if row['time_notice_status'] == '1':
                             text_time = 'Сегодня {:%d %b %Y, %H:%M }\n\n'.format(curr_user_time)
                         if row['currency_notice_status'] == '1':
-                            text_currency = 'Курс валют:\n USD: ' + str(dollar) + '\n EUR: ' + str(euro) + '\n'
+                            text_currency = 'Курс валют:\nUSD: ' + str(dollar) + '\nEUR: ' + str(euro) + '\n'
                         if row['weather_notice_status'] == '1':
                             curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
                             text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
@@ -393,7 +408,7 @@ def run_thread():
                     db.close()
                     """
 
-        time.sleep(61) # Через минуту запускаем заного
+        time.sleep(60) # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов

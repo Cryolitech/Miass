@@ -4,6 +4,13 @@ from enum import Enum
 # Токен бота
 token = '431904557:AAHpjz8Qtnekh-lNsj8q7SG3IFvFSq_yuZ0'
 
+#PostgerSQL
+Database_name = "dam200ta40ispa"
+Username = "tvqpoqthrrskcc"
+Password = "bf52ed097dcffbb71d9fb127149f9e1e9b97c16178cc1837a5ac8ccf0ce5e100"
+Hostname = "ec2-54-225-88-191.compute-1.amazonaws.com"
+Port = "5432"
+
 # БД Vedis для хранения статуса пользователя при настройках
 db_status = "status.vdb"
 db_position = "curr_pos.vdb"
