@@ -378,7 +378,7 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 23 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 50# 0 минут
+    time_notice_m = 55# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -434,8 +434,9 @@ def run_thread():
                                 bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
                     db.close()
                     """
+                break
 
-        time.sleep(60) # Через минуту запускаем заного
+        time.sleep(61) # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
