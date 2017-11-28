@@ -1,0 +1,9 @@
+$ cat .gitignore
+
+*.vdb
+venv
+*.pyc
+staticfiles
+.env
+
+
