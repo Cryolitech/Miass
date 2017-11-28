@@ -377,8 +377,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 23 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 55# 0 минут
+    time_notice_h = 0 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 0# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -426,6 +426,7 @@ def run_thread():
 
                         all_text = text_time + text_currency + text_weather
                         bot.send_message(id, all_text)
+                        break
                     """
                     for currData in data_contact_withTimeZone:
                         data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
@@ -434,9 +435,9 @@ def run_thread():
                                 bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
                     db.close()
                     """
-                break
+                
 
-        time.sleep(61) # Через минуту запускаем заного
+        time.sleep(60) # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
