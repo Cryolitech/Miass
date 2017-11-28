@@ -55,6 +55,33 @@ def getData_from_id(user_id):
             return data
         except:
             return 0
+def setUserData(user_id,timezone,city,time_notice_status,currency_notice_status,weather_notice_status):
+    with Vedis(config.db_status) as db:
+        h = db.Hash(str(user_id))
+        try:
+            if time_notice_status == True:
+                time_notice_status = '1'
+            else:
+                time_notice_status = '0'
+
+            if currency_notice_status == True:
+                currency_notice_status = '1'
+            else:
+                currency_notice_status = '0'
+
+            if weather_notice_status == True:
+                weather_notice_status = '1'
+            else:
+                weather_notice_status = '0'
+
+            h['timezone'] = str(timezone)
+            h['city'] = str(city)
+            h['time_notice_status'] = time_notice_status
+            h['currency_notice_status'] = currency_notice_status
+            h['weather_notice_status'] = weather_notice_status
+            return True
+        except:
+            return False
 
 def set_hash_city(user_id, value):
     with Vedis(config.db_status) as db:

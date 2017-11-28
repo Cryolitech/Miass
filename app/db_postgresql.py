@@ -45,6 +45,18 @@ class SQL_Postgre:
                 return list(data)     # Пользователь есть в БД
             else:
                 return None    # Пользователья нет в БД
+
+    def getAllUserInfo(self):
+        with self.conn:
+            cur = self.conn.cursor()
+            query = 'SELECT * FROM public.contact_telegram'
+            cur.execute(query)
+            data = cur.fetchall()
+            cur.close()
+            if data != None:
+                return list(data)     # Пользователь есть в БД
+            else:
+                return None    # Пользователья нет в БД
     def check_city(self, city_name):
         with self.conn:
             cur = self.conn.cursor()
@@ -62,6 +74,43 @@ class SQL_Postgre:
     def new_user(self, userId,firstName,userName,lastName):
         cur = self.conn.cursor()
         self.cur.execute("insert into contact_telegram(telegram_id,first_Name,user_Name,last_Name) values(%s,%s,%s,%s)",(str(userId),str(firstName),str(userName),str(lastName)))
+        self.conn.commit()  # Загружае все звпросы на сервер БД
+        cur.close()
+        return True
+    def update_user(self, userId,timezone,city):
+        cur = self.conn.cursor()
+        query = 'UPDATE contact_telegram SET  timezone = ' + str(timezone) + ', city = ' + str("'" + city + "'") + ' WHERE telegram_id =' + str(userId)
+        self.cur.execute(query)
+        self.conn.commit()  # Загружае все звпросы на сервер БД
+        cur.close()
+        return True
+
+    def update_user_notice(self,userId, time_notice_status,currency_notice_status,weather_notice_status):
+        cur = self.conn.cursor()
+        query = 'UPDATE contact_telegram SET  time_notice_status = ' + str(time_notice_status) + ', currency_notice_status = ' + str(currency_notice_status) + ', weather_notice_status = ' + str(weather_notice_status) + ' WHERE telegram_id = ' + str(userId)
+        self.cur.execute(query)
+        self.conn.commit()  # Загружае все звпросы на сервер БД
+        cur.close()
+        return True
+    def update_time_notice_status(self,userId, time_notice_status):
+        cur = self.conn.cursor()
+        query = 'UPDATE contact_telegram SET  time_notice_status = ' + str(time_notice_status) + ' WHERE telegram_id = ' + str(userId)
+        self.cur.execute(query)
+        self.conn.commit()  # Загружае все звпросы на сервер БД
+        cur.close()
+        return True
+    def update_currency_notice_status(self,userId, currency_notice_status):
+        cur = self.conn.cursor()
+        query = 'UPDATE contact_telegram SET  currency_notice_status = ' + str(currency_notice_status) + ' WHERE telegram_id = ' + str(userId)
+        self.cur.execute(query)
+        self.conn.commit()  # Загружае все звпросы на сервер БД
+        cur.close()
+        return True
+
+    def update_weather_notice_status(self, userId, weather_notice_status):
+        cur = self.conn.cursor()
+        query = 'UPDATE contact_telegram SET  weather_notice_status = ' + str(weather_notice_status) + ' WHERE telegram_id = ' + str(userId)
+        self.cur.execute(query)
         self.conn.commit()  # Загружае все звпросы на сервер БД
         cur.close()
         return True

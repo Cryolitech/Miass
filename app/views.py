@@ -16,8 +16,14 @@ import datetime
 import time
 import threading
 import shelve
-from app.DbVedis import get_current_state,set_state,set_hash_city,set_hash_timezone,get_current_hash,get_hash_timezone, set_position, get_current_position,get_hash_city,getData_from_id,update_hash_notice
+from app.DbVedis import get_current_state,set_state,set_hash_city,set_hash_timezone,get_current_hash,get_hash_timezone, set_position, get_current_position,get_hash_city,getData_from_id,update_hash_notice,setUserData
 import app.weather as weather
+
+db = SQL_Postgre()
+lst = db.getAllUserInfo()
+for i in lst:
+    setUserData(i[0],i[4],i[5],i[6],i[7],i[8])
+db.close()
 
 bot = telebot.TeleBot(token)
 def inRange(num, min, max):
@@ -130,9 +136,13 @@ def set_city(message):
     #db.close()
     if check == True:
         bot.send_message(message.chat.id, "Отлично! Я к твоим услугам. Чтобы общаться со мной, введи команду /Miass")
+        db = SQL_Postgre()
+
         set_hash_city(message.chat.id,'Moscow')
+        utc = get_hash_timezone(message.chat.id)
 
-
+        db.update_user(message.chat.id, utc, 'Moscow')
+        db.close()
         set_state(message.chat.id, config.States.S_CHECKINOK.value) # Теперь переводим в статус зарегестрированного
     else:
         bot.send_message(message.chat.id, "Похоже твоего города нет в списке. Введи Москва (Я пока в бета-версии) :)")
@@ -199,39 +209,56 @@ def view_activated_services(message):
 def activate_time_notice(message):
     update_hash_notice(message.chat.id, 'time_notice_status','1')
     bot.send_message(message.chat.id,'Подписка оформлена')
+    db = SQL_Postgre()
+    db.update_time_notice_status(message.chat.id, True)
+    db.close()
 
 @bot.message_handler(commands=['activateCurrency'])
 def activate_currency_notice(message):
     update_hash_notice(message.chat.id, 'currency_notice_status', '1')
     bot.send_message(message.chat.id, 'Подписка оформлена')
-
+    db = SQL_Postgre()
+    db.update_currency_notice_status(message.chat.id, True)
+    db.close()
 @bot.message_handler(commands=['activateWeather'])
 def activate_weather_notice(message):
     update_hash_notice(message.chat.id, 'weather_notice_status', '1')
     bot.send_message(message.chat.id, 'Подписка оформлена')
+    db = SQL_Postgre()
+    db.update_weather_notice_status(message.chat.id, True)
+    db.close()
 
 @bot.message_handler(commands=['disableAll'])
 def disactivate_notice_all(message):
     update_hash_notice(message.chat.id, 'time_notice_status','0')
     update_hash_notice(message.chat.id, 'currency_notice_status', '0')
     update_hash_notice(message.chat.id, 'weather_notice_status', '0')
-    bot.send_message(message.chat.id, 'Отписка от всех уведомлений')
-
+    bot.send_message(message.chat.id, 'Отписка от всех уведомлений. Почему? Надеюсь, это в последний раз :(')
+    db = SQL_Postgre()
+    db.update_user_notice(message.chat.id, False,False,False)
+    db.close()
 @bot.message_handler(commands=['disableTime'])
 def disactivate_time_notice(message):
     update_hash_notice(message.chat.id, 'time_notice_status','0')
     bot.send_message(message.chat.id, 'Отписка от уведомления')
+    db = SQL_Postgre()
+    db.update_time_notice_status(message.chat.id, False)
+    db.close()
 
 @bot.message_handler(commands=['disableCurrency'])
 def disactivate_currency_notice(message):
     update_hash_notice(message.chat.id, 'currency_notice_status', '0')
     bot.send_message(message.chat.id, 'Отписка от уведомления')
-
+    db = SQL_Postgre()
+    db.update_currency_notice_status(message.chat.id, False)
+    db.close()
 @bot.message_handler(commands=['disableWeather'])
 def disactivate_weather_notice(message):
     update_hash_notice(message.chat.id, 'weather_notice_status', '0')
     bot.send_message(message.chat.id, 'Отписка от уведомления')
-
+    db = SQL_Postgre()
+    db.update_weather_notice_status(message.chat.id, False)
+    db.close()
 @bot.message_handler(commands=['settings'])
 def user_settings(message):
     bot.send_message(message.chat.id, "Ваш часовой пояс: " + str(get_hash_timezone(message.chat.id)) + "\nВаш город:                " + str(get_hash_city(message.chat.id)) + "\nСброс настроек: /resetSettings" )
@@ -350,8 +377,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 10 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 16 # 0 минут
+    time_notice_h = 23 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 50# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -375,7 +402,7 @@ def run_thread():
 
                 data_need_timezone = [] # тут данные о всех пользователях, у кого utc тот же
                 for item in main_data:
-                    if item["timezone"] == '3':
+                    if item["timezone"] == str(utc):
                         if item['time_notice_status'] == '1' or item['currency_notice_status'] == '1' or item['weather_notice_status'] == '1':
                             data_need_timezone.append(item)
 
