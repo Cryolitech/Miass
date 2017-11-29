@@ -177,14 +177,14 @@ def view_miass_commands(message):
                                       "/activateTime - дата и время \n"
                                       "/activateCurrency - курс валют\n"
                                       "/activateWeather - погода\n"
-                                      "/activatedServices - мои текущие подписки\n"
-                                      "/disableServices - открючить сервис" )
+                                      "/activatedServices - мои текущие уведомления\n"
+                                      "/disableServices - отписаться от уведомлений" )
 
 @bot.message_handler(commands=['disableServices'])
 def disable_services(message):
     bot.send_message(message.chat.id, "Выбери сервис, который хочешь отключить.\n"
-                                      "/disableAll - отключить все сервисы\n"
-                                      "/disableTime - открючить уведомление даты и время\n"
+                                      "/disableAll - отключить все уведомления\n"
+                                      "/disableTime - отключить уведомление даты и время\n"
                                       "/disableCurrency - отключить уведомление курса валют\n"
                                       "/disableWeather - отключить уведомление погоды" )
 
@@ -301,9 +301,9 @@ def setUTC(message):
     UTC10 = types.KeyboardButton('10')
     UTC11 = types.KeyboardButton('11')
     UTC12 = types.KeyboardButton('12')
-    markup.row(UTCminus11, UTCminus10, UTCminus9, UTCminus8, UTCminus7, UTCminus6, UTCminus5, UTCminus4, UTCminus3,
-               UTCminus2, UTCminus1, UTCZero)
-    markup.row(UTC1, UTC2, UTC3, UTC4, UTC5, UTC6, UTC7, UTC8, UTC9, UTC10, UTC11, UTC12)
+    markup.row(UTCminus11, UTCminus10, UTCminus9, UTCminus8, UTCminus7, UTCminus6, UTCminus5, UTCminus4)
+    markup.row(UTCminus3,UTCminus2, UTCminus1, UTCZero,UTC1, UTC2, UTC3, UTC4)
+    markup.row(UTC5, UTC6, UTC7, UTC8, UTC9, UTC10, UTC11, UTC12)
     bot.send_message(message.chat.id, "Пожалуйста, введите часовой пояс:", reply_markup=markup)
 
 
