@@ -18,7 +18,7 @@ import threading
 import shelve
 from app.DbVedis import get_current_state,set_state,set_hash_city,set_hash_timezone,get_current_hash,get_hash_timezone, set_position, get_current_position,get_hash_city,getData_from_id,update_hash_notice,setUserData
 import app.weather as weather
-
+from multiprocessing import Process
 
 bot = telebot.TeleBot(token)
 def inRange(num, min, max):
@@ -398,7 +398,7 @@ def run_thread():
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-start_contact_notification()
+#start_contact_notification()
 
 
 
@@ -419,6 +419,9 @@ def web_hook():
     return "CONNECTED", 200
 
 if __name__ == '__main__':
+    thread = Process(target=run_thread)
+    thread.start()
+    thread.join()
     app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
