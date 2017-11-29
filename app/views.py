@@ -393,6 +393,7 @@ def run_thread():
         id = 61714776  # row['user_id']
 
         bot.send_message(id, "hello")
+        print('hello2')
 
         time.sleep(60)  # Через минуту запускаем заного
 
