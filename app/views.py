@@ -387,6 +387,7 @@ class myThread (threading.Thread):
 def start_contact_notification():
     thread1 = myThread("Thread", 1)
     thread1.start()
+    thread1.join()
 
 
 def run_thread():
