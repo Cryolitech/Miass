@@ -384,8 +384,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 32# 0 минут
+    time_notice_h = 16 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 0# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -409,7 +409,7 @@ def run_thread():
 
                 data_need_timezone = [] # тут данные о всех пользователях, у кого utc тот же
                 for item in main_data:
-                    if item["timezone"] == '3':
+                    if item["timezone"] == str(utc):
                         if item['time_notice_status'] == '1' or item['currency_notice_status'] == '1' or item['weather_notice_status'] == '1':
                             data_need_timezone.append(item)
 
@@ -434,14 +434,14 @@ def run_thread():
                     all_text = text_time + text_currency + text_weather
                     bot.send_message(id, all_text)
                     
-                
+                """
                 for currData in data_contact_withTimeZone:
                     data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
                     if len(data_contact) != 0: # Если данные не пустые
                         for row in data_contact:
                             bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
                 db.close()
-                
+                """
 
         time.sleep(60) # Через минуту запускаем заного
 
