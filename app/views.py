@@ -380,30 +380,16 @@ def send_exchange_rates(message):
 
 
 
-def run_thread():
-    time_notice_h = 12  # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 50  # 0 минут
+def foo(x, s):
+    print("%s %s %s" % (threading.current_thread(), x, s))
     while True:
-        # urrent_date = datetime.date.today()        # Узнаем текущую дату
-        # current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
-
-        # if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
-
-
         id = 61714776  # row['user_id']
-
         bot.send_message(id, "hello")
-        print('hello2')
-
-        time.sleep(60)  # Через минуту запускаем заного
+        time.sleep(s)  # Через минуту запускаем заного
 
 
-# Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-#t = myThread("Thread",1)
-#t.daemon = True
-#t.start()
-
-_thread.start_new_thread(run_thread,())
+for x in range(1):
+    threading.Thread(target=foo, args=(x, 60)).start()
 
 
 
