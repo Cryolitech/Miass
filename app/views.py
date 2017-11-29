@@ -421,7 +421,6 @@ def web_hook():
 if __name__ == '__main__':
     thread = Process(target=run_thread)
     thread.start()
-    thread.join()
     app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
