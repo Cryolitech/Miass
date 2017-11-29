@@ -379,17 +379,13 @@ def send_exchange_rates(message):
 
 
 
+import random
+def foo(x, s):    
+    time.sleep(s)
+    print ("%s %s %s" % (threading.current_thread(), x, s))
 
-def foo(x, s):
-    print("%s %s %s" % (threading.current_thread(), x, s))
-    while True:
-        id = 61714776  # row['user_id']
-        bot.send_message(id, "hello")
-        time.sleep(s)  # Через минуту запускаем заного
-
-
-for x in range(1):
-    threading.Thread(target=foo, args=(x, 60)).start()
+for x in range(4):
+    threading.Thread(target=foo, args=(x, random.random())).start()
 
 
 
