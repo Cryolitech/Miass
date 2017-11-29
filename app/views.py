@@ -382,7 +382,7 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 30# 0 минут
+    time_notice_m = 36# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -411,7 +411,8 @@ def run_thread():
                             data_need_timezone.append(item)
 
                 # Получаем города пользователей
-
+                curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
+                dollar, euro = current_exchange_rate()
                 #for row in data_need_timezone:
                 id = 61714776#row['user_id']
                 city = 'Moscow' #row['city']
@@ -458,7 +459,7 @@ def run_thread():
                             bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
                 db.close()
                 """
-                break
+                
         time.sleep(61) # Через минуту запускаем заного
 
 
