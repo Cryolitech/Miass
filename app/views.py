@@ -382,53 +382,17 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 46# 0 минут
+    time_notice_m = 50 # 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
     
         if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
-            '''
-            Например: Пользователь находится в Москве. Его часовой пояс мы получили при запуске команды /start (Первый запуск бота). Его UTC равен +3
-            Время сервера current_time.hour = 6 часов утра
-            Время клиента 9 часов утра
-            если время сервера + часовой пояс клиента == 9 утра 0 минут, то выполняем дальше
-            '''
-            # Получаем всех пользователей с данными
+            
             
             id = 61714776#row['user_id']
             
             bot.send_message(id, "hello")
-
-                
-                    
-                """
-                curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
-                dollar, euro = current_exchange_rate()
-                for row in data_need_timezone:
-                    id = row['user_id']
-                    city = row['city']
-                    text_time = ''
-                    text_currency = ''
-                    text_weather = ''
-                    if row['time_notice_status'] == '1':
-                        text_time = 'Сегодня {:%d %b %Y, %H:%M }\n\n'.format(curr_user_time)
-                    if row['currency_notice_status'] == '1':
-                        text_currency = 'Курс валют:\nUSD: ' + str(dollar) + '\nEUR: ' + str(euro) + '\n'
-                    if row['weather_notice_status'] == '1':
-                        curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
-                        text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
-
-                    all_text = text_time + text_currency + text_weather
-                    bot.send_message(id, all_text)
-                    
-                for currData in data_contact_withTimeZone:
-                    data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
-                    if len(data_contact) != 0: # Если данные не пустые
-                        for row in data_contact:
-                            bot.send_message(row[2], 'День рождение у: ' + str(row[0]) + ' ' + str(row[1]) )
-                db.close()
-                """
                 
         time.sleep(61) # Через минуту запускаем заного
 
