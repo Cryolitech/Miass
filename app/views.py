@@ -385,16 +385,16 @@ def run_thread():
     time_notice_m = 50 # 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
-        current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
+        #current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
     
-        if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
+        #if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
             
             
-            id = 61714776#row['user_id']
-            
-            bot.send_message(id, "hello")
+        id = 61714776#row['user_id']
+        
+        bot.send_message(id, "hello")
                 
-        time.sleep(61) # Через минуту запускаем заного
+        time.sleep(60) # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
