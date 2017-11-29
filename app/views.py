@@ -379,13 +379,7 @@ def send_exchange_rates(message):
 
 
 
-import random
-def foo(x, s):    
-    time.sleep(s)
-    print ("%s %s %s" % (threading.current_thread(), x, s))
 
-for x in range(4):
-    threading.Thread(target=foo, args=(x, random.random())).start()
 
 
 
