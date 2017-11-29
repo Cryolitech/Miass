@@ -376,29 +376,38 @@ def send_exchange_rates(message):
         set_state(message.chat.id, "2") # Перевод пользователя в статус 2 - необходимо указать город
         bot.send_message(message.chat.id, 'Не указан город. Пройдите регистрацию /start')
 
+class myThread (threading.Thread):
+    def __init__(self, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = counter
+        self.name = name
+    def run(self):
+        run_thread()
+
 def start_contact_notification():
-    thread = threading.Thread(target=run_thread)
-    thread.start()
+    thread1 = myThread("Thread", 1)
+    thread1.start()
+
 
 def run_thread():
-    time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 50 # 0 минут
+    time_notice_h = 12  # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 50  # 0 минут
     while True:
-        #urrent_date = datetime.date.today()        # Узнаем текущую дату
-        #current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
-    
-        #if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
-            
-            
-        id = 61714776#row['user_id']
-        
+        # urrent_date = datetime.date.today()        # Узнаем текущую дату
+        # current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
+
+        # if current_time.hour + 3 == time_notice_h and current_time.minute == time_notice_m:  # Уведомление пока настроено статически на 9 утра 0 минут (Но если загрузим на серевер, то он будет будет присылать в 9 утра по времени сервера)
+
+
+        id = 61714776  # row['user_id']
+
         bot.send_message(id, "hello")
-                
-        time.sleep(60) # Через минуту запускаем заного
+
+        time.sleep(60)  # Через минуту запускаем заного
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-#start_contact_notification()
+start_contact_notification()
 
 
 
@@ -419,8 +428,6 @@ def web_hook():
     return "CONNECTED", 200
 
 if __name__ == '__main__':
-    thread = Process(target=run_thread)
-    thread.start()
     app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
