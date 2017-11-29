@@ -382,7 +382,7 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 20# 0 минут
+    time_notice_m = 30# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -412,6 +412,26 @@ def run_thread():
 
                 # Получаем города пользователей
 
+                #for row in data_need_timezone:
+                id = 61714776#row['user_id']
+                city = 'Moscow' #row['city']
+                text_time = ''
+                text_currency = ''
+                text_weather = ''
+                #if row['time_notice_status'] == '1':
+                text_time = 'Сегодня {:%d %b %Y, %H:%M }\n\n'.format(curr_user_time)
+                #if row['currency_notice_status'] == '1':
+                text_currency = 'Курс валют:\nUSD: ' + str(dollar) + '\nEUR: ' + str(euro) + '\n'
+                #if row['weather_notice_status'] == '1':
+                curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
+                text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
+
+                all_text = text_time + text_currency + text_weather
+                bot.send_message(id, all_text)
+
+                
+                    
+                """
                 curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
                 dollar, euro = current_exchange_rate()
                 for row in data_need_timezone:
@@ -431,7 +451,6 @@ def run_thread():
                     all_text = text_time + text_currency + text_weather
                     bot.send_message(id, all_text)
                     
-                """
                 for currData in data_contact_withTimeZone:
                     data_contact = db.find_data_contact(current_date.month, current_date.day, currData[0]) # Получаем данные контактов с указаными id-шниками
                     if len(data_contact) != 0: # Если данные не пустые
