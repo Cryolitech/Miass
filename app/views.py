@@ -376,18 +376,12 @@ def send_exchange_rates(message):
         set_state(message.chat.id, "2") # Перевод пользователя в статус 2 - необходимо указать город
         bot.send_message(message.chat.id, 'Не указан город. Пройдите регистрацию /start')
 
-class myThread (threading.Thread):
-    def __init__(self, name, counter):
-        threading.Thread.__init__(self)
-        self.threadID = counter
-        self.name = name
-    def run(self):
-        run_thread()
 
-def start_contact_notification():
-    thread1 = myThread("Thread", 1)
-    thread1.start()
-    thread1.join()
+
+ef start_contact_notification():
+    p = multiprocessing.Process(target=run_thread)
+    p.start()
+    p.join()
 
 
 def run_thread():
@@ -407,8 +401,6 @@ def run_thread():
         time.sleep(60)  # Через минуту запускаем заного
 
 
-# Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-start_contact_notification()
 
 
 
@@ -429,6 +421,7 @@ def web_hook():
     return "CONNECTED", 200
 
 if __name__ == '__main__':
+    start_contact_notification()
     app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
