@@ -378,7 +378,7 @@ def send_exchange_rates(message):
 
 
 
-ef start_contact_notification():
+def start_contact_notification():
     p = multiprocessing.Process(target=run_thread)
     p.start()
     p.join()
