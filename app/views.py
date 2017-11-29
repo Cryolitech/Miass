@@ -382,7 +382,7 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 36# 0 минут
+    time_notice_m = 40# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -395,40 +395,10 @@ def run_thread():
                 если время сервера + часовой пояс клиента == 9 утра 0 минут, то выполняем дальше
                 '''
                 # Получаем всех пользователей с данными
-                db = SQL_Postgre()
-                list_user_id = db.getAll_user_id()
-                main_data = []
-                for i in list_user_id:
-                    data = getData_from_id(i[0])
-                    if data != 0:
-                        main_data.append(data)
-                db.close()
-
-                data_need_timezone = [] # тут данные о всех пользователях, у кого utc тот же
-                for item in main_data:
-                    if item["timezone"] == str(utc):
-                        if item['time_notice_status'] == '1' or item['currency_notice_status'] == '1' or item['weather_notice_status'] == '1':
-                            data_need_timezone.append(item)
-
-                # Получаем города пользователей
-                curr_user_time = get_time_from_another_timezone(datetime.datetime.utcnow(), int(utc))
-                dollar, euro = current_exchange_rate()
-                #for row in data_need_timezone:
+                
                 id = 61714776#row['user_id']
-                city = 'Moscow' #row['city']
-                text_time = ''
-                text_currency = ''
-                text_weather = ''
-                #if row['time_notice_status'] == '1':
-                text_time = 'Сегодня {:%d %b %Y, %H:%M }\n\n'.format(curr_user_time)
-                #if row['currency_notice_status'] == '1':
-                text_currency = 'Курс валют:\nUSD: ' + str(dollar) + '\nEUR: ' + str(euro) + '\n'
-                #if row['weather_notice_status'] == '1':
-                curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
-                text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
-
-                all_text = text_time + text_currency + text_weather
-                bot.send_message(id, all_text)
+                
+                bot.send_message(id, "hello")
 
                 
                     
