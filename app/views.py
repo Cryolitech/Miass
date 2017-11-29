@@ -407,7 +407,7 @@ def run_thread():
 
 
 # Запускаем новый поток, который каждый день смотрит кому нужно отправить уведомления из БД контактов
-start_contact_notification()
+
 
 
 
@@ -428,6 +428,7 @@ def web_hook():
     return "CONNECTED", 200
 
 if __name__ == '__main__':
+    start_contact_notification()
     app.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
 
 # Если web-хуки не работают или хочешь запустить на локальной машине
