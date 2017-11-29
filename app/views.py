@@ -381,8 +381,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 11 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 40# 0 минут
+    time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 00# 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
