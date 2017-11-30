@@ -5,7 +5,8 @@ from xml.etree import ElementTree as ET
 
 def current_exchange_rate():
     """Получает значения доллара и евро в рублях на время запуска. Данные берутся с сайта ЦБР. Возвращает значение доллара в рублях, евро в рублях"""
-
+    rub_dollar = ''
+    rub_evro = ''
     try:
         ratesFile = urlopen("http://www.cbr.ru/scripts/XML_daily.asp?date_req")
     except HTTPError as e:
@@ -24,5 +25,8 @@ def current_exchange_rate():
                 rub_dollar = line.find('Value').text
             if id_v == id_evro:
                 rub_evro = line.find('Value').text
-        return rub_dollar, rub_evro
+        if type(rub_dollar) != None:
+            if type(rub_evro) != None:
+                return rub_dollar, rub_evro
+        return  0,0
 
