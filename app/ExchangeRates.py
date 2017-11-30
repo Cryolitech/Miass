@@ -25,8 +25,4 @@ def current_exchange_rate():
                 rub_dollar = line.find('Value').text
             if id_v == id_evro:
                 rub_evro = line.find('Value').text
-        if type(rub_dollar) != None:
-            if type(rub_evro) != None:
-                return rub_dollar, rub_evro
-        return  0,0
-
+        return [rub_dollar,rub_evro]

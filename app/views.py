@@ -360,8 +360,8 @@ def allDocs(message):
 
 @bot.message_handler(commands=['currency'])
 def send_exchange_rates(message):
-    dollar,euro = current_exchange_rate()
-    bot.send_message(message.chat.id, "Курс валют на сегодня:\nUSD: " + str(dollar) +"\nEUR: " + str(euro))
+    lst = current_exchange_rate()
+    bot.send_message(message.chat.id, "Курс валют на сегодня:\nUSD: " + str(lst[0]) +"\nEUR: " + str(lst[1]))
 
 @bot.message_handler(commands=['weatherFull'])
 def send_exchange_rates(message):
