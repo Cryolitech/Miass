@@ -179,7 +179,7 @@ def view_miass_commands(message):
 
 @bot.message_handler(commands=['services'])
 def view_miass_commands(message):
-    bot.send_message(message.chat.id, "Выбери сервис, который тебя интересует. Каждые 9 утра я буду присылать уведомления.\n"
+    bot.send_message(message.chat.id, "Выбери сервис, который тебя интересует. Каждый день в 9 утра я буду присылать уведомления.\n"
                                       "/activateTime - дата и время \n"
                                       "/activateCurrency - курс валют\n"
                                       "/activateWeather - погода\n"
