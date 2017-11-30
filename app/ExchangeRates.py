@@ -8,7 +8,7 @@ def current_exchange_rate():
     rub_dollar = ''
     rub_evro = ''
     try:
-        ratesFile = urlopen("http://www.cbr.ru/scripts/XML_daily.asp?date_req/")
+        ratesFile = urlopen("https://www.cbr.ru/scripts/XML_daily.asp?date_req/")
     except HTTPError as e:
         print('Error code: ', e.code)
     except URLError as e:
