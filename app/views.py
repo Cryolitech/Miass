@@ -21,7 +21,11 @@ import app.weather as weather
 
 import _thread
 
-update_vedis()
+db = SQL_Postgre()
+lst = db.getAllUserInfo()
+for i in lst:
+    setUserData(i[0], i[4], i[5], i[6], i[7], i[8])
+db.close()
 
 bot = telebot.TeleBot(token)
 def inRange(num, min, max):
@@ -157,7 +161,7 @@ def view_commands(message):
                                       )
 
 @bot.message_handler(commands=['UpdateVedis'])
-def update_vedis():
+def update_vedis(message):
     db = SQL_Postgre()
     lst = db.getAllUserInfo()
     for i in lst:
