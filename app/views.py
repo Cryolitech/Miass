@@ -21,6 +21,8 @@ import app.weather as weather
 
 import _thread
 
+update_vedis()
+
 bot = telebot.TeleBot(token)
 def inRange(num, min, max):
     if num in range(min,max):
@@ -58,12 +60,12 @@ def send_welcome(message):
     elif curr_state == config.States.S_ENTER_CITY.value:
         set_city(message)
         bot.send_message(message.chat.id,
-                         userName + "Чтобы общаться со мной, введите команду /Miass")
+                         userName + "Чтобы общаться со мной, введите команду /miass")
         # После ввода последней настройки вызываем для иництализации
         get_current_position(message.chat.id)
         return
         # После регистрации клиента в системе выводим первое приветсвие
-    bot.send_message(message.chat.id, "/Miass - твоя персональная помощница\n"
+    bot.send_message(message.chat.id, "/miass - твоя персональная помощница\n"
                                       "/settings - мои настройки\n"
                                       "/reset_settings - сбросить настройки ")
 
@@ -131,7 +133,7 @@ def set_city(message):
     #check = db.check_city(str(msg))
     #db.close()
     if check == True:
-        bot.send_message(message.chat.id, "Отлично! Я к твоим услугам. Чтобы общаться со мной, введи команду /Miass")
+        bot.send_message(message.chat.id, "Отлично! Я к твоим услугам. Чтобы общаться со мной, введи команду /miass")
         db = SQL_Postgre()
 
         set_hash_city(message.chat.id,'Moscow')
@@ -155,7 +157,7 @@ def view_commands(message):
                                       )
 
 @bot.message_handler(commands=['UpdateVedis'])
-def update_vedis(message):
+def update_vedis():
     db = SQL_Postgre()
     lst = db.getAllUserInfo()
     for i in lst:
@@ -163,7 +165,7 @@ def update_vedis(message):
     db.close()
     
 
-@bot.message_handler(commands=['Miass'])
+@bot.message_handler(commands=['miass'])
 def view_miass_commands(message):
     bot.send_message(message.chat.id, "Чем я могу тебе помочь?\n"
                                       "/services - мои сервисы. Нажмите, чтобы посмотреть весь список\n"
@@ -385,7 +387,7 @@ def start_contact_notification():
 
 def run_thread():
     time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 0 # 0 минут
+    time_notice_m = 30 # 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
