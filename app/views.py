@@ -390,7 +390,7 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
     time_notice_m = 0 # 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
