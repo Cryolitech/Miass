@@ -437,7 +437,7 @@ def run_thread():
                         curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
                         text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
 
-                    all_text = "Простите, что я так долго не писала!\n"text_time + text_currency + text_weather
+                    all_text = "Простите, что я так долго не писала!\n" + text_time + text_currency + text_weather
                     try:
                         bot.send_message(id, all_text)
                     except:
