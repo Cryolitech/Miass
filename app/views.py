@@ -390,8 +390,8 @@ def start_contact_notification():
     thread.start()
 
 def run_thread():
-    time_notice_h = 12 # Уведомления статически приходят пользователю в 9 утра 0 минут
-    time_notice_m = 3 # 0 минут
+    time_notice_h = 9 # Уведомления статически приходят пользователю в 9 утра 0 минут
+    time_notice_m = 0 # 0 минут
     while True:
         #urrent_date = datetime.date.today()        # Узнаем текущую дату
         current_time = datetime.datetime.utcnow()   # Узнаем текущee время сервера по поясу UTC (+00 на сервере)
@@ -437,7 +437,7 @@ def run_thread():
                         curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
                         text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
 
-                    all_text = "Простите, что я так долго не писала!\n" + text_time + text_currency + text_weather
+                    all_text = "Доброе утро!\n" + text_time + text_currency + text_weather
                     try:
                         bot.send_message(id, all_text)
                     except:
