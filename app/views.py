@@ -434,8 +434,11 @@ def run_thread():
                     if row['currency_notice_status'] == '1':
                         text_currency = 'Курс валют:\nUSD: ' + str(dollar) + '\nEUR: ' + str(euro) + '\n'
                     if row['weather_notice_status'] == '1':
-                        curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
-                        text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
+                        try:
+                            curr_weather = weather.make_report_overall(weather.getTodayWeatherOverall(str(city)))
+                            text_weather = '\nПогода в ' + str(city) + ':\n' + str(curr_weather)
+                        except:
+                            text_weather = ''
 
                     all_text = "Доброе утро!\n" + text_time + text_currency + text_weather
                     try:
