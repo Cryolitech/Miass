@@ -192,12 +192,12 @@ def getTodayWeatherOverall(city):
     response = []
     tree = html.fromstring(r.text)
 
-    temperature = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/a[2]/div')[0]
-    precipitation = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/div[2]')[0]
-    feels_like = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/dl[1]/dd')[0]
-    wind = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/div[3]/dl[1]/dd')[0]
-    pressure = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/div[3]/dl[2]/dd')[0]
-    humidity = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[3]/div[1]/div[3]/dl[3]/dd')[0]
+    temperature = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/a[2]/div')[0]
+    precipitation = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]')[0]
+    feels_like = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/dl[1]/dd')[0]
+    wind = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/div[3]/dl[1]/dd')[0]
+    pressure = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/div[3]/dl[2]/dd')[0]
+    humidity = tree.xpath('/html/body/div[3]/div[1]/div[1]/div[2]/div[1]/div[3]/dl[3]/dd')[0]
 
     #response - список
     response.append({
