@@ -7,3 +7,5 @@ staticfiles
 .env
 
 
+
+app/config.py
